@@ -17,10 +17,12 @@ RUN sudo -u zcbbot --login pip install buildbot
 RUN sudo -u zcbbot --login buildbot create-master ./bbm
 COPY ./master.cfg /home/zcbbot/bbm/
 
+# Write some dummy secrets:
 RUN head -c 10 /dev/urandom | base64 > ~zcbbot/github.status-secret
 RUN head -c 10 /dev/urandom | base64 > ~zcbbot/github.webhook-secret
 RUN echo '[["user", "password"]]' > ~zcbbot/webcreds.json
 
+# Start the daemons:
 RUN sudo -u zcbbot --login buildbot start ./bbm
 RUN sudo -u zcbbot --login \
     buildslave create-slave \
