@@ -16,6 +16,11 @@ RUN sudo -u zcbbot --login virtualenv ~zcbbot/venv
 RUN sudo -u zcbbot --login pip install buildbot
 RUN sudo -u zcbbot --login buildbot create-master ./bbm
 COPY ./master.cfg /home/zcbbot/bbm/
+
+RUN head -c 10 /dev/urandom | base64 > ~zcbbot/github.status-secret
+RUN head -c 10 /dev/urandom | base64 > ~zcbbot/github.webhook-secret
+RUN echo '[["user", "password"]]' > ~zcbbot/webcreds.json
+
 RUN sudo -u zcbbot --login buildbot start ./bbm
 RUN sudo -u zcbbot --login \
     buildslave create-slave \
