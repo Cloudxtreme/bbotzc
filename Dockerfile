@@ -1,7 +1,8 @@
-# Test the deployment a bit.
+# For testing the deployment (not for our actual deploy):
+
 FROM debian:latest
 
-# Cheat a bit for now by preinstalling deploy-here packages:
+# System setup:
 RUN apt-get update -y && \
     apt-get install -y \
             build-essential \
