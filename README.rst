@@ -7,19 +7,17 @@ This should have all of the config for our buildbot except secrets.
 Deployment
 ==========
 
-Deploy as follows:
+For deploying updates, this works for many changes (esp. only to ``master.cfg``):
 
-#. clone (or pull an existing) repository on the host.
-#. copy ``master.cfg`` *over* ``~bbmaster/buildbot/master.cfg``.
-#. ensure ``~bbmaster/buildbot/master.cfg`` has the right owner/perms.
-#. restart buildbot.
-#. if there are problems with credentials it should hopefully show a
-   helpful error banner. There's a lot of noise, look for ```***``` lines.
-#. Fix those and any other outstanding issues.
+#. On ``ci.leastauthority.com`` become the user ``bbmaster``. The
+   following steps all assume that user.
+#. ``cd ~/bbotzc ; git pull --ff-only ; cd ~``
+#. ``cp ./bbotzc/master.cfg ./buildbot/master.cfg``.
+#. ``buildbot restart ./buildbot``
 
-Notice that any local changes to ``~bbmaster/buildbot/master.cfg`` will
-be blown away, which is Right and Good, since they weren't in revision
-control. ;-)
+Other changes may require more complicated deployment, eg if they:
+change dependencies, require altering the buildslave in some manner,
+introduce/move credentials files, add more files besides ``master.cfg``...
 
 Perhaps someday we'll have a better deployment story.
 
