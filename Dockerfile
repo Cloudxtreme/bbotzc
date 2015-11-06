@@ -17,6 +17,7 @@ RUN adduser --disabled-password --gecos '' zcbbot
 RUN echo 'export PATH=$HOME/venv/bin:/usr/bin:/bin' > ~zcbbot/.bashrc
 RUN sudo -u zcbbot --login virtualenv ~zcbbot/venv
 RUN sudo -u zcbbot --login pip install buildbot
+RUN sudo -u zcbbot --login pip install buildbot-slave
 RUN sudo -u zcbbot --login pip install txgithub
 RUN sudo -u zcbbot --login buildbot create-master ./bbm
 COPY ./master.cfg /home/zcbbot/bbm/
@@ -31,5 +32,5 @@ RUN sudo -u zcbbot --login buildbot start ./bbm
 RUN sudo -u zcbbot --login \
     buildslave create-slave \
     ./bbs localhost \
-    $(cat slave.name) \
-    $(cat slave.password)
+    'builder-0' \
+    $(cat ~zcbbot/slave.password)
